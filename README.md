@@ -6,7 +6,7 @@ UXplore AI is an intelligent Android app testing platform that automates UI expl
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Upload APKs** and launch them on a virtual Android device
 - **Input custom test cases** and define expected outcomes
@@ -21,7 +21,7 @@ UXplore AI is an intelligent Android app testing platform that automates UI expl
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Flask (Python), Node.js
@@ -32,7 +32,7 @@ UXplore AI is an intelligent Android app testing platform that automates UI expl
 
 ---
 
-## 🧪 How It Works
+## How It Works
 
 1. User uploads an APK file through the dashboard.
 2. The system installs and launches the app on an Android emulator.
