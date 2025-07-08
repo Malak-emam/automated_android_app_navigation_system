@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UXploreAI - SignUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    :root {
+      --accent-color: #0d83fd;
+      --background-color: #f3f9ff;
+      --default-color: #212529;
+    }
+
+    body {
+      height: 100vh;
+      background-color: var(--background-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--default-color);
+      transition: opacity 0.3s ease;
+    }
+
+    body.fade-out {
+      opacity: 0;
+    }
+
+    .signup-card {
+      background: #ffffff;
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .signup-card h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: #1e293b;
+    }
+
+    .signup-card p {
+      font-size: 0.95rem;
+      color: #e0f7fa;
+      margin: 12px 0;
+    }
+
+    .input-group {
+      margin: 10px 0;
+      text-align: left;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 14px;
+      padding-right: 40px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: rgba(155, 155, 155, 0.133);
+      color: black;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #a6a6a6;
+    }
+
+    .input-wrapper input.error {
+      border: 2px solid #ff4d4f;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      font-size: 1.2rem;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .warning-message {
+      color: #ff4d4f;
+      font-size: 0.85rem;
+      margin-top: 4px;
+      margin-left: 4px;
+      display: none;
+      text-align: left;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      text-align: left;
+      color: #7d7c79;
+    }
+
+    .btn-signup {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background-color: #0d6efd;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 12px;
+    }
+
+    .btn-signin-link {
+      margin-top: 8px;
+      background: transparent;
+      color: #0d6efd;
+      border: 1px solid #0d6efd;
+      padding: 10px 20px;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .btn-signin-link:hover {
+      background: #0b5ed7;
+      color: white;
+    }
+
+
+    .btn-signup:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.03);
+    }
+
+    .signin-section {
+      margin-top: 24px;
+    }
+
+    .signin-section p {
+      color: #000000;
+    }
+
+    .signin-section a {
+      display: inline-block;
+      margin-top: 8px;
+      background: transparent;
+      color: #0d6efd;
+      border: 1px solid #0d6efd;
+      padding: 10px 20px;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .signin-section a:hover {
+      background: #0b5ed7;
+      color: white;
+    }
+
+    @media (max-width: 480px) {
+      .signup-card {
+        padding: 30px 20px;
+      }
+
+      .signup-card h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-card">
+    <h2>Create Your UXploreAI Account</h2>
+
+    <form id="signupForm" method="POST">
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="text" name="first_name" id="firstName" placeholder="First Name" />
+        </div>
+        <div class="warning-message" id="firstNameWarning">First name is required.</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="text" name="last_name" id="lastName" placeholder="Last Name" />
+        </div>
+        <div class="warning-message" id="lastNameWarning">Last name is required.</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="email" name="email" id="email" placeholder="Email address" />
+        </div>
+        <div class="warning-message" id="emailWarning">Email must end with @gmail.com</div>
+        <div class="warning-message" id="emailExistsWarning">This email is already registered. Please log in.</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="password" name="password" id="password" placeholder="Password" />
+          <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePasswordVisibility()" id="toggleIcon"></i>
+        </div>
+        <div class="warning-message" id="passwordWarning"></div>
+      </div>
+
+      <div class="note">
+        Password must be at least 8 characters and include:<br>
+        • Uppercase, lowercase<br>
+        • A number<br>
+        • A special character (e.g. !@#$%^&*)
+      </div>
+
+      <button type="submit" class="btn-signup">Sign Up</button>
+    </form>
+
+    <div class="signin-section">
+      <p>Already have an account?</p>
+      <button onclick="window.location.href='login.html'" class="btn-signin-link">
+        Log in
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function togglePasswordVisibility() {
+      const passwordField = document.getElementById('password');
+      const toggleIcon = document.getElementById('toggleIcon');
+
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      }
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const firstName = document.getElementById('firstName');
+      const lastName = document.getElementById('lastName');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+
+      const emailWarning = document.getElementById('emailWarning');
+      const emailExistsWarning = document.getElementById('emailExistsWarning');
+      const passwordWarning = document.getElementById('passwordWarning');
+      const firstNameWarning = document.getElementById('firstNameWarning');
+      const lastNameWarning = document.getElementById('lastNameWarning');
+
+      [emailWarning, emailExistsWarning, passwordWarning, firstNameWarning, lastNameWarning].forEach(w => w.style.display = 'none');
+      [firstName, lastName, email, password].forEach(f => f.classList.remove('error'));
+
+      let formValid = true;
+
+      if (!firstName.value.trim()) {
+        firstNameWarning.style.display = 'block';
+        firstName.classList.add('error');
+        formValid = false;
+      }
+
+      if (!lastName.value.trim()) {
+        lastNameWarning.style.display = 'block';
+        lastName.classList.add('error');
+        formValid = false;
+      }
+
+      const emailValid = /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email.value);
+      if (!emailValid) {
+        emailWarning.style.display = 'block';
+        email.classList.add('error');
+        formValid = false;
+      }
+
+      const issues = [];
+      if (!/(?=.*[A-Z])/.test(password.value)) issues.push("uppercase letter");
+      if (!/(?=.*[a-z])/.test(password.value)) issues.push("lowercase letter");
+      if (!/(?=.*\d)/.test(password.value)) issues.push("a number");
+      if (!/(?=.*[!@#$%^&*])/.test(password.value)) issues.push("a special character");
+      if (password.value.length < 8) issues.push("at least 8 characters");
+
+      if (issues.length > 0) {
+        passwordWarning.innerText = "Password must include: " + issues.join(", ") + ".";
+        passwordWarning.style.display = 'block';
+        password.classList.add('error');
+        formValid = false;
+      }
+
+      if (!formValid) return;
+
+      try {
+        const res = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            first_name: firstName.value,
+            last_name: lastName.value,
+            email: email.value,
+            password: password.value
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          window.location.href = '/dashboard';
+        } else {
+          if (data.error?.includes('already')) {
+            emailExistsWarning.style.display = 'block';
+            email.classList.add('error');
+          } else {
+            alert(data.error || "Signup failed.");
+          }
+        }
+      } catch (err) {
+        alert("Network or server error.");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
