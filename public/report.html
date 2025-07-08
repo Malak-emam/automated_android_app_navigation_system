@@ -1,0 +1,61 @@
+<!-- Report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-full px-6 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 20h9M12 4h9M4 9h16M4 15h16"/>
+          </svg>
+          <h1 class="text-2xl font-bold text-gray-900">📄Test Report</h1>
+        </div>
+        <div class="text-sm text-gray-500">
+          UXploreAI Dashboard
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Report Viewer -->
+  <main class="flex justify-center items-center h-[calc(100vh-64px)] bg-gradient-to-br from-gray-50 to-gray-100">
+    <div class="w-full max-w-6xl h-full p-4">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden h-full">
+        <iframe id="reportFrame" class="w-full h-full" frameborder="0"></iframe>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Read the ?file= parameter from the URL, e.g., report.html?file=Talabat_Test_Report.pdf
+    const urlParams = new URLSearchParams(window.location.search);
+    const reportFile = urlParams.get('file');
+
+    if (reportFile) {
+      // Dynamically set iframe source
+      document.getElementById('reportFrame').src = `/reports/${encodeURIComponent(reportFile)}`;
+    } else {
+      // If no file specified, show error
+      document.body.innerHTML = '<div class="text-center text-red-600 p-10 font-bold">Error: No report file specified in URL.</div>';
+    }
+  </script>
+
+
+</body>
+</html>
