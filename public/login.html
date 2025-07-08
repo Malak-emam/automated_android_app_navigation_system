@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    :root {
+      --accent-color: #0d83fd;
+      --background-color: #f3f9ff;
+      --default-color: #212529;
+    }
+
+    body {
+      height: 100vh;
+      background-color: var(--background-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--default-color);
+      transition: opacity 0.3s ease;
+    }
+
+    body.fade-out {
+      opacity: 0;
+    }
+
+    .signup-card {
+      background: #ffffff;
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .signup-card h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: #1e293b;
+    }
+
+    .google {
+      background: #ebe8f4;
+      color: #1a1a1a;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .google img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .google:hover {
+      background: #f2f2f2;
+      transform: scale(1.02);
+    }
+
+    .signup-card p {
+      font-size: 0.95rem;
+      color: #e0f7fa;
+      margin: 12px 0;
+    }
+
+    .input-group {
+      margin: 10px 0;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 14px;
+      padding-right: 40px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: rgba(155, 155, 155, 0.133);
+      color: black;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #a6a6a6;
+    }
+
+    .input-wrapper input.error {
+      border: 2px solid #ff4d4f;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      font-size: 1.2rem;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .warning-message {
+      color: #ff4d4f;
+      font-size: 0.85rem;
+      margin-top: 4px;
+      margin-left: 4px;  /* aligns to left under input */
+      display: none;
+      text-align: left;
+    }
+
+    .forgot {
+      font-size: 0.85rem;
+      margin-top: 16px;
+      text-align: right;
+    }
+
+    .forgot a {
+      color: #7d7c79;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .forgot a:hover {
+      color: #0b5ed7;
+      text-decoration: underline;
+    }
+
+    .btn-signup {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background-color: #0d6efd;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 12px;
+    }
+
+    .btn-signup:hover {
+      background-color: #0b5ed7;
+      transform: scale(1.03);
+    }
+
+    .signin-section {
+      margin-top: 24px;
+    }
+
+    .signin-section p {
+      color: #000000;
+    }
+
+    .signin-section button {
+      display: inline-block;
+      margin-top: 8px;
+      background: transparent;
+      color: #0d6efd;
+      border: 1px solid #0d6efd;
+      padding: 10px 20px;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .signin-section button:hover {
+      background: #0b5ed7;
+      color: white;
+    }
+
+    @media (max-width: 480px) {
+      .signup-card {
+        padding: 30px 20px;
+      }
+
+      .signup-card h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-card">
+    <h2>Login to UXploreAI</h2>
+
+    <a href="/auth/google" class="google">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo" />
+      Sign in with Google
+    </a>
+
+    <form id="loginForm">
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="email" id="email" placeholder="Email address" required />
+        </div>
+        <div class="warning-message" id="emailWarning">Must end with @gmail.com</div>
+        <div class="warning-message" id="emailNotFound">Email not registered.</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Password" required />
+          <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePasswordVisibility()" id="toggleIcon"></i>
+        </div>
+        <div class="warning-message" id="loginError">Invalid email or password.</div>
+      </div>
+
+      <div class="forgot">
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-signup">Login</button>
+    </form>
+
+    <div class="signin-section">
+      <p>Don't have an account?</p>
+      <button onclick="window.location.href='signup.html'">Sign Up</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const emailWarning = document.getElementById('emailWarning');
+    const emailNotFound = document.getElementById('emailNotFound');
+    const loginError = document.getElementById('loginError');
+
+    function togglePasswordVisibility() {
+      const passwordField = document.getElementById('password');
+      const toggleIcon = document.getElementById('toggleIcon');
+
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      }
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      emailWarning.style.display = 'none';
+      emailNotFound.style.display = 'none';
+      loginError.style.display = 'none';
+
+      if (!email.value.endsWith('@gmail.com')) {
+        emailWarning.style.display = 'block';
+        return;
+      }
+
+      const res = await fetch(`/api/check_email?email=${encodeURIComponent(email.value)}`);
+      const data = await res.json();
+
+      if (!data.exists) {
+        emailNotFound.style.display = 'block';
+        return;
+      }
+
+      const loginRes = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.value, password: password.value })
+      });
+
+      const result = await loginRes.json();
+
+      if (result.success) {
+        window.location.href = '/dashboard';
+      } else {
+        loginError.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
