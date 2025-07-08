@@ -1,0 +1,938 @@
+<!-- testing.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UXploreAI Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .custom-blue-shadow {
+          box-shadow: 0 0 30px rgba(5, 42, 96, 0.711);
+        }
+
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+
+<!-- Header -->
+<header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-full px-6 py-3">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+
+            <!-- Left: Logo and Description -->
+            <div class="flex items-center min-w-0">
+                <div class="truncate">
+                    <h1 class="text-2xl font-bold text-gray-900 whitespace-nowrap truncate">UXploreAI Dashboard</h1>
+                </div>
+            </div>
+
+            <!-- Right: Status Info -->
+            <div class="flex items-center space-x-6 text-sm">
+                <div class="flex items-center space-x-2 px-4 py-2 bg-green-50 rounded-full">
+                    <div class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></div>
+                    <span class="text-green-700 font-medium">Live Session</span>
+                </div>
+                <div class="flex items-center space-x-2 text-gray-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 00-2 2h2a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
+                    <span id="event-count">1 events</span>
+                </div>
+                <div class="flex items-center space-x-2 text-gray-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>Android</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Main Content -->
+<div class="flex h-[calc(100vh-120px)]">
+    <!-- Emulator Section -->
+    <div class="flex-1 flex items-center justify-center p-8 bg-gradient-to-br from-gray-50 to-gray-100">
+      <div class="flex flex-col items-center space-y-6">
+        <!-- Android-like Phone Frame -->
+        <div class="relative mt-24 inline-block rounded-[2.3rem] border-8 border-black custom-blue-shadow p-0">
+        <div class="w-[258px] h-[558px] rounded-[2rem] bg-black shadow-2xl flex flex-col items-center justify-start border-4 border-black p-3">
+          <div class="w-16 h-3 bg-gray-800 rounded-full mt-1 mb-2"></div>
+          <div class="w-full h-full rounded-[1.5rem] overflow-hidden bg-black" id="mockupFrame">
+            <div id="vnc-loading" class="flex flex-col items-center justify-center w-full h-full">
+              <div class="spinner border-4 border-gray-300 border-t-blue-500 rounded-full w-10 h-10 animate-spin mb-4"></div>
+              <p class="text-white text-lg">Launching emulator...</p>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex items-center space-x-4 text-sm text-gray-500 mt-6">
+        <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+            <span>Navigation Events</span>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span>User Interactions</span>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+            <span>App Launches</span>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+            <span>System Events</span>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Enhanced Logs Panel -->
+        <div class="w-[800px] h-screen bg-white shadow-xl border-l border-gray-200">
+            <div class="h-full flex flex-col">
+                <!-- Header -->
+                <div class="p-6 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-900">Activity Monitor</h2>
+                                <p class="text-sm text-gray-500">Real-time action tracking & analysis</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-gray-500">
+                            <div class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></div>
+                            <span>Recording</span>
+                        </div>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                   <div class="flex justify-between items-center flex-wrap gap-2 w-full">
+                    <!-- Left: Filter Buttons -->
+                    <div class="flex flex-wrap gap-2">
+                        <button class="log-filter-btn active px-3 py-1 text-xs font-medium rounded-full bg-gray-800 text-white" onclick="filterLogs('all')" data-filter="all">
+                        All Events
+                        </button>
+                        <button class="log-filter-btn px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200" onclick="filterLogs('NAVIGATION')" data-filter="NAVIGATION">
+                        Navigation
+                        </button>
+                        <button class="log-filter-btn px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700 hover:bg-green-200" onclick="filterLogs('UI_INTERACTION')" data-filter="UI_INTERACTION">
+                        UI Actions
+                        </button>
+                        <button class="log-filter-btn px-3 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200" onclick="filterLogs('APP_LAUNCH')" data-filter="APP_LAUNCH">
+                        App Launch
+                        </button>
+                        <button class="log-filter-btn px-3 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-700 hover:bg-orange-200" onclick="filterLogs('SYSTEM')" data-filter="SYSTEM">
+                        System
+                        </button>
+                    </div>
+                    <!-- Right: View Metrics Button -->
+                    <div>
+                        <a href="/metrics.html" target="_blank" title="View Metrics Report">
+                        <button id="metricsBtn" disabled
+                            class="px-4 py-3 text-xs font-medium text-white bg-blue-300 cursor-not-allowed rounded-md transition-colors">
+                            📊 View Metrics
+                        </button>
+                        </a>    
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Stats -->
+                <div class="p-6 bg-gray-50 border-b border-gray-200">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white rounded-lg p-3 shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div id="total-count" class="text-2xl font-bold text-gray-800">1</div>
+                                    <div class="text-xs text-gray-600">Total Events</div>
+                                </div>
+                                <div class="p-2 bg-gray-100 rounded-lg">
+                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 00-2 2h2a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div id="session-duration" class="text-2xl font-bold text-blue-600">0:00</div>
+                                    <div class="text-xs text-gray-600">Session Time</div>
+                                </div>
+                                <div class="p-2 bg-blue-100 rounded-lg">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="text-center">
+                            <div id="nav-count" class="text-lg font-bold text-blue-600">0</div>
+                            <div class="text-xs text-gray-600">Navigation</div>
+                        </div>
+                        <div class="text-center">
+                            <div id="interaction-count" class="text-lg font-bold text-green-600">0</div>
+                            <div class="text-xs text-gray-600">UI Actions</div>
+                        </div>
+                        <div class="text-center">
+                            <div id="app-count" class="text-lg font-bold text-purple-600">0</div>
+                            <div class="text-xs text-gray-600">App Launch</div>
+                        </div>
+                        <div class="text-center">
+                            <div id="system-count" class="text-lg font-bold text-orange-600">1</div>
+                            <div class="text-xs text-gray-600">System</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Logs List -->
+                <div class="flex-1 overflow-y-auto bg-white">
+                    <div id="logs-container" class="log-timeline relative">
+                        <!-- Initial system log -->
+                        <div class="log-entry p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors" data-type="SYSTEM">
+                            <div class="flex items-start space-x-3">
+                                <div class="log-timeline-dot flex-shrink-0 w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mt-1">
+                                    <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="text-sm font-semibold text-gray-900">Android Emulator Started</h4>
+                                        <span class="text-xs text-gray-500" id="start-time"></span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">Emulator session initialized successfully</p>
+                                    <div class="action-detail p-2 rounded text-xs text-gray-700 mb-2">
+                                        <strong>Action:</strong> System initialization completed<br>
+                                        <strong>Context:</strong> emulator_startup
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-700">SYSTEM</span>
+                                        <span class="text-xs text-gray-400">Session ID: EMU-001</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Control Panel -->
+                <div class="p-4 border-t border-gray-200 bg-gray-50">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-medium text-gray-700">Session Controls</h3>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="exportLogs()" class="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Export Logs">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </button>
+                            <button onclick="pauseLogging()" class="p-2 text-gray-500 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors" title="Pause Logging" id="pause-btn">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                       <div>
+                        <a id="ReportLink" href="/report.html" target="_blank" title="View Report">
+                        <button id="ReportBtn" disabled
+                            class="px-4 py-3 text-xs font-medium text-white bg-blue-300 cursor-not-allowed rounded-md transition-colors">
+                            View Report
+                        </button>
+                        </a>    
+                    </div>
+                    </div>
+                    <button onclick="clearLogs()" class="w-full p-3 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        <span class="text-sm font-medium">Clear All Logs</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+  const mockupFrame = document.getElementById("mockupFrame");
+  const loadingDiv = document.getElementById("vnc-loading");
+
+  // Wait ~5 seconds to give the emulator + VNC enough time to launch
+  setTimeout(() => {
+    if (loadingDiv) loadingDiv.remove();
+
+    const iframe = document.createElement("iframe");
+    iframe.id = "vnc";
+    iframe.src = "novnc/vnc.html?host=localhost&port=5901&autoconnect=true&resize=scale";
+    iframe.style.overflow = "hidden";
+    iframe.style.display = "block";
+    iframe.style.pointerEvents = "auto";
+    iframe.style.position = "absolute";
+    // iframe.style.borderRadius = "inherit";  // inherit parent radius
+    iframe.style.top = "0";
+    iframe.style.left = "0";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "none";
+    iframe.style.borderRadius = "1.5rem";  // match your rounded-[1.5rem]
+    iframe.style.boxShadow = "0 0 25px rgba(0,0,0,0.3)";
+    iframe.setAttribute("scrolling", "no");
+
+    iframe.onload = () => {
+      console.log("✅ VNC iframe loaded.");
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      setTimeout(() => {
+        const style = iframeDoc.createElement("style");
+        style.innerHTML = `
+          html, body { margin: 0 !important; padding: 0 !important; overflow: hidden !important; background: black !important; }
+          #noVNC_mobile_bar, #noVNC_status, #noVNC_control_bar, #noVNC_status_bar, #noVNC_mobile_bar_handle { display: none !important; visibility: hidden !important; }
+          #noVNC_container, #noVNC_screen, canvas { pointer-events: auto !important; z-index: 9999 !important; background: none !important; }
+        `;
+        iframeDoc.head.appendChild(style);
+        iframeDoc.body.style.pointerEvents = 'auto';
+
+        const canvas = iframeDoc.querySelector('canvas');
+        if (canvas) {
+          canvas.style.pointerEvents = 'auto';
+          canvas.style.zIndex = '9999';
+        }
+      }, 500); // delay to ensure noVNC fully loads
+    };
+
+    iframe.onerror = () => {
+      alert("⚠️ Failed to load VNC view. Make sure the emulator and DroidVNC are running.");
+    };
+
+    mockupFrame.appendChild(iframe);
+  }, 5000);
+
+  function sendMockupBounds(stepNumber) {
+    const el = document.getElementById("mockupFrame");
+    if (!el) {
+      console.error("❌ .mockup-frame not found");
+      return;
+    }
+
+    const rect = el.getBoundingClientRect();
+    const bounds = {
+      x: Math.round(window.screenX + rect.left),
+      y: Math.round(window.screenY + rect.top),
+      width: Math.round(rect.width),
+      height: Math.round(rect.height),
+      step: stepNumber,
+    };
+
+    fetch("/api/capture-desktop-screenshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bounds),
+    })
+    .then(res => res.json())
+    .then(data => console.log(`✅ Screenshot request: ${data.success ? 'Success' : 'Failed'}`))
+    .catch(err => console.error("❌ Screenshot request error:", err));
+  }
+
+  // Real-time logs display
+//   const logsPanel = document.getElementById("logs-container");
+
+//   function addLogEntry(message) {
+//     const entry = document.createElement("div");
+//     entry.classList.add("log-entry", "p-4", "border-b", "border-gray-100", "hover:bg-gray-50", "transition-colors");
+//     entry.textContent = `[${new Date().toLocaleTimeString()}] ${message.trim()}`;
+
+//     if (message.includes("[ERROR]") || message.startsWith("❌") || message.startsWith("⚠️")) {
+//       entry.classList.add("border-l-4", "border-red-500");
+//     }
+
+//     logsPanel.appendChild(entry);
+//     logsPanel.scrollTop = logsPanel.scrollHeight; // scroll to latest
+//   }
+
+  // WebSocket for real-time logs
+//   const ws = new WebSocket(`ws://${window.location.hostname}:3000`);
+
+//   ws.onopen = () => console.log("📡 Connected to WebSocket server for logs.");
+//   ws.onmessage = (event) => {
+//     const logLine = event.data;
+//     addLogEntry(logLine);
+
+//     if (logLine.includes("[SCREENSHOT_TRIGGER]")) {
+//       const match = logLine.match(/Step: (\d+)/);
+//       if (match) {
+//         const stepNum = parseInt(match[1]);
+//         console.log(`📸 Capturing screenshot for step ${stepNum}`);
+//         sendMockupBounds(stepNum);
+//       }
+//     }
+//   };
+//   ws.onerror = (error) => console.error("❌ WebSocket error:", error);
+//   ws.onclose = () => console.log("🔌 WebSocket connection closed.");
+
+  // Start backend when page loads
+  window.addEventListener('load', async () => {
+    console.log("🚀 Requesting backend start...");
+    try {
+      const res = await fetch('/api/start-backend', { method: 'POST' });
+      const data = await res.json();
+      console.log("✅ Backend response:", data.message);
+    } catch (err) {
+      console.error("❌ Failed to start backend:", err);
+    }
+  });
+</script>
+
+<script>
+
+    let sessionId = 'EMU-' + Date.now().toString();  // unique ID for this session
+    let logs = [];
+    let eventCounts = {
+        NAVIGATION: 0,
+        UI_INTERACTION: 0,
+        APP_LAUNCH: 0,
+        SOCIAL_INTERACTION: 0,
+        SEARCH_INTERACTION: 0,
+        USER_INPUT: 0,
+        SYSTEM: 1
+    };
+    let isLiked = false;
+    let likeCount = 156;
+    let sessionStartTime = new Date();
+    let isLoggingPaused = false;
+    let currentFilter = 'all';
+    let sessionTimer = null;
+
+     // Initialize
+    document.getElementById('start-time').textContent = sessionStartTime.toLocaleTimeString();
+    updateSessionDuration();
+    sessionTimer = setInterval(updateSessionDuration, 1000);
+
+    function updateSessionDuration() {
+        const now = new Date();
+        const duration = Math.floor((now - sessionStartTime) / 1000);
+        const minutes = Math.floor(duration / 60);
+        const seconds = duration % 60;
+        document.getElementById('session-duration').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function logAction(type, title, actionDetails, context, customSessionId = null) {
+        if (isLoggingPaused) return;    
+        const timestamp = new Date();
+        const log = {
+            id: Date.now().toString(),
+            timestamp: timestamp,
+            type: type,
+            title: title,
+            actionDetails: actionDetails,
+            context: context,
+            // sessionId: customSessionId ||'EMU-' + String(logs.length + 2).padStart(3, '0')
+            sessionId: sessionId
+        };
+        logs.push(log);
+        eventCounts[type] = (eventCounts[type] || 0) + 1;
+
+        updateStats();
+        addLogToUI(log);
+    }
+
+    function addLogToUI(log) {
+        const logsContainer = document.getElementById('logs-container');
+        const logElement = document.createElement('div');
+        logElement.className = 'log-entry p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors';
+        logElement.setAttribute('data-type', log.type);
+
+        let iconColor, bgColor, badgeColor, icon;
+
+        switch(log.type) {
+            case 'NAVIGATION':
+                iconColor = 'text-blue-600';
+                bgColor = 'bg-blue-100';
+                badgeColor = 'bg-blue-100 text-blue-700';
+                icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>';
+                break;
+            case 'UI_INTERACTION':
+                iconColor = 'text-green-600';
+                bgColor = 'bg-green-100';
+                badgeColor = 'bg-green-100 text-green-700';
+                icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>';
+                break;
+            case 'APP_LAUNCH':
+                iconColor = 'text-purple-600';
+                bgColor = 'bg-purple-100';
+                badgeColor = 'bg-purple-100 text-purple-700';
+                icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>';
+                break;
+            case 'SOCIAL_INTERACTION':
+                iconColor = 'text-pink-600';
+                bgColor = 'bg-pink-100';
+                badgeColor = 'bg-pink-100 text-pink-700';
+                icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>';
+                break;
+            case 'SEARCH_INTERACTION':
+                iconColor = 'text-indigo-600';
+                bgColor = 'bg-indigo-100';
+                badgeColor = 'bg-indigo-100 text-indigo-700';
+                icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>';
+                break;
+            case 'USER_INPUT':
+                iconColor = 'text-yellow-600';
+                bgColor = 'bg-yellow-100';
+                badgeColor = 'bg-yellow-100 text-yellow-700';
+                icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>';
+                break;
+            default:
+                iconColor = 'text-orange-600';
+                bgColor = 'bg-orange-100';
+                badgeColor = 'bg-orange-100 text-orange-700';
+                icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+        }
+
+        logElement.innerHTML = `
+            <div class="flex items-start space-x-3">
+                <div class="log-timeline-dot flex-shrink-0 w-8 h-8 ${bgColor} rounded-full flex items-center justify-center mt-1">
+                    <svg class="w-4 h-4 ${iconColor}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${icon}
+                    </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between mb-1">
+                        <h4 class="text-sm font-semibold text-gray-900">${log.title}</h4>
+                        <span class="text-xs text-gray-500">${log.timestamp.toLocaleTimeString()}</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">${log.actionDetails}</p>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <span class="text-xs text-gray-400">ID: ${log.sessionId}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Notification effect
+        logElement.classList.add('notification-badge');
+        setTimeout(() => logElement.classList.remove('notification-badge'), 500);
+
+        logsContainer.appendChild(logElement);
+
+        if (currentFilter !== 'all' && log.type !== currentFilter) {
+            logElement.style.display = 'none';
+        }
+    }
+
+    function updateStats() {
+        document.getElementById('total-count').textContent = logs.length + 1;
+        document.getElementById('nav-count').textContent = eventCounts['NAVIGATION'] || 0;
+        document.getElementById('interaction-count').textContent = eventCounts['UI_INTERACTION'] || 0;
+        document.getElementById('app-count').textContent = eventCounts['APP_LAUNCH'] || 0;
+        document.getElementById('system-count').textContent = eventCounts['SYSTEM'] || 1;
+        document.getElementById('event-count').textContent = `${logs.length + 1} events`;
+    }
+
+    function switchScreen(screenName) {
+        // Hide all screens
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('search-screen').classList.add('hidden');
+        document.getElementById('social-screen').classList.add('hidden');
+
+        // Show target screen
+        document.getElementById(screenName + '-screen').classList.remove('hidden');
+
+        // Log the navigation
+        let message = '';
+        let actionDetails = '';
+        switch(screenName) {
+            case 'home':
+                message = 'Navigated to home screen';
+                actionDetails = 'User returned to main home screen interface';
+                break;
+            case 'search':
+                message = 'Opened search interface';
+                actionDetails = 'User accessed search functionality from home screen';
+                break;
+            case 'social':
+                message = 'Launched social media app';
+                actionDetails = 'User opened social media application from app grid';
+                break;
+        }
+        logAction('NAVIGATION', message, actionDetails, screenName + '_screen');
+    }
+
+    function toggleLike() {
+        isLiked = !isLiked;
+        likeCount = isLiked ? likeCount + 1 : likeCount - 1;
+        
+        const heartIcon = document.getElementById('heart-icon');
+        const likeCountElement = document.getElementById('like-count');
+        
+        if (isLiked) {
+            heartIcon.setAttribute('fill', 'currentColor');
+            heartIcon.parentElement.classList.add('text-red-500');
+        } else {
+            heartIcon.setAttribute('fill', 'none');
+            heartIcon.parentElement.classList.remove('text-red-500');
+        }
+        
+        likeCountElement.textContent = likeCount;
+        logAction('SOCIAL_INTERACTION', 
+            `${isLiked ? 'Liked' : 'Unliked'} social media post`, 
+            `User ${isLiked ? 'liked' : 'removed like from'} post - Total likes: ${likeCount}`, 
+            'social_screen'
+        );
+    }
+
+    function filterLogs(filterType) {
+        currentFilter = filterType;
+        const logEntries = document.querySelectorAll('.log-entry');
+        const filterButtons = document.querySelectorAll('.log-filter-btn');
+        
+        // Update button states
+        filterButtons.forEach(btn => {
+            btn.classList.remove('active', 'bg-gray-800', 'text-white');
+            if (btn.dataset.filter === filterType) {
+                btn.classList.add('active', 'bg-gray-800', 'text-white');
+            }
+        });
+        
+        // Filter log entries
+        logEntries.forEach(entry => {
+            if (filterType === 'all' || entry.dataset.type === filterType) {
+                entry.style.display = 'block';
+            } else {
+                entry.style.display = 'none';
+            }
+        });
+    }
+
+    function clearLogs() {
+        logs = [];
+        eventCounts = {
+            NAVIGATION: 0,
+            UI_INTERACTION: 0,
+            APP_LAUNCH: 0,
+            SOCIAL_INTERACTION: 0,
+            SEARCH_INTERACTION: 0,
+            USER_INPUT: 0,
+            SYSTEM: 1
+        };
+
+        const logsContainer = document.getElementById('logs-container');
+        logsContainer.innerHTML = `
+                <div class="log-entry p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors" data-type="SYSTEM">
+                    <div class="flex items-start space-x-3">
+                        <div class="log-timeline-dot flex-shrink-0 w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mt-1">
+                            <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="text-sm font-semibold text-gray-900">All logs cleared</h4>
+                                <span class="text-xs text-gray-500">${new Date().toLocaleTimeString()}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">User manually cleared all activity logs</p>
+                            <div class="action-detail p-2 rounded text-xs text-gray-700 mb-2">
+                                <strong>Action:</strong> Manual log clearance initiated<br>
+                                <strong>Context:</strong> log_management
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-700">SYSTEM</span>
+                                <span class="text-xs text-gray-400">ID: EMU-CLEAR</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            updateStats();
+        }
+
+    function pauseLogging() {
+        isLoggingPaused = !isLoggingPaused;
+        const pauseBtn = document.getElementById('pause-btn');
+        
+        if (isLoggingPaused) {
+            pauseBtn.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2v-8a2 2 0 012-2z"></path>
+                </svg>
+            `;
+            pauseBtn.title = 'Resume Logging';
+            pauseBtn.classList.add('text-yellow-600', 'bg-yellow-50');
+        } else {
+            pauseBtn.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            `;
+            pauseBtn.title = 'Pause Logging';
+            pauseBtn.classList.remove('text-yellow-600', 'bg-yellow-50');
+        }
+    }
+
+    function exportLogs() {
+        const exportData = {
+            sessionInfo: {
+                startTime: sessionStartTime,
+                duration: Math.floor((new Date() - sessionStartTime) / 1000),
+                totalEvents: logs.length + 1,
+                platform: 'Android 14'
+            },
+            eventCounts: eventCounts,
+            logs: logs
+        };
+        
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `android-emulator-logs-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
+        link.click();
+        
+        logAction('SYSTEM', 'Logs exported', 'User exported session logs to JSON file', 'log_management');
+        }
+
+        const ws = new WebSocket(`ws://${window.location.hostname}:3000`);
+        ws.onopen = () => console.log("📡 Connected to WebSocket server for logs.");
+        ws.onmessage = (event) => {
+          const raw = event.data.trim();
+          if (!raw) return;
+
+            console.log("🔹 Incoming log:", raw);
+
+            // Begin reusing your streamLogs logic:
+            if (raw.startsWith("[INFO] Package:")) {
+                const pkgName = raw.split(":")[1].trim();
+                logAction('APP_LAUNCH', 'Android Emulator Started', `Launched app: ${pkgName}`, 'emulator_startup', sessionId);
+            }
+
+            else if (raw.startsWith("Screen Loaded:")) {
+                const activity = raw.split(":")[1].trim();
+                logAction('NAVIGATION', 'First Screen Loaded', `The first launched screen: ${activity}`, 'screen_rendered');
+                // logAction('NAVIGATION', 'Screen Loaded', `screen: ${activity}`, 'screen_rendered');
+            }
+
+            else if (raw.startsWith("App Category:")) {
+                const category = raw.split(":")[1].trim();
+                logAction('SYSTEM', 'App Category', category || 'Unknown', '');
+            }
+
+            else if (raw.startsWith("App Functions:")) {
+                const funcsStr = raw.split(":")[1].trim();
+                const funcsArray = funcsStr ? funcsStr.split(",").map(f => f.trim()) : [];
+                const functionsFormatted = funcsArray.length > 0
+                ? funcsArray.map((f, i) => `${i + 1}. ${f}`).join('<br>')
+                : "No functions found";
+                logAction('SYSTEM', 'Test Cases', functionsFormatted, '');
+            }
+
+            // else if (raw.startsWith("GPT-4 Response:")) {
+            //     window.captureGPTResponse = true;  // Use global to track GPT response start
+            //     window.tempUIFields = {};          // Reset temp grouped fields
+            //     return;
+            // }
+            else if (raw.startsWith("GPT-4 Response:")) {
+                let response = raw.substring("GPT-4 Response:".length).trim();
+                response = response.replace(/\\n/g, '\n');
+                response = response.replace(
+                    /(ResourceID\s*:\s*)([\s\S]*?)(?=\n\w+?:|$)/,   // Regex explained below
+                    (match, prefix, value) => {
+                        const safeValue = value.replace(/\n/g, '\\n');  // Replace real newlines with "\n"
+                        return prefix + safeValue;
+                    }
+                );
+                // logAction('SYSTEM', 'GPT-4 Response', response, '');
+                //logAction('SYSTEM', 'UI Elements Selected', `<pre class="text-sm font-sans text-gray-700 whitespace-pre-wrap">${response}</pre>`, '');
+                logAction('SYSTEM', 'UI Elements Selected', `<div class="whitespace-pre-wrap text-sm font-sans text-gray-700">${response}</div>`, '');
+                return;
+            }
+
+
+            else if (window.captureGPTResponse) {
+                const [key, ...rest] = raw.split(":");
+                const value = rest.join(":").trim();
+
+                if (key.startsWith("Function_Being_Tested")) {
+                logAction('SYSTEM', 'Test case', value, '');
+                } else if (key.startsWith("ActionType")) {
+                logAction('SYSTEM', 'Suggested Action', value, '');
+                } else if (key.startsWith("ResourceID")) {
+                window.tempUIFields.resourceId = value || "None";
+                } else if (key.startsWith("Bounds")) {
+                window.tempUIFields.bounds = value || "None";
+                } else if (key.startsWith("InputText")) {
+                window.tempUIFields.inputText = value || "None";
+                } else if (key.startsWith("HintText")) {
+                window.tempUIFields.hintText = value || "None";
+                } else if (key.startsWith("ContentDescription")) {
+                window.tempUIFields.contentDescription = value || "None";
+                } else if (key.startsWith("Function_Status")) {
+                logAction('SYSTEM', 'Test Case Status', value, '');
+                } else if (key.startsWith("All_Functions_Tested")) {
+                logAction('SYSTEM', 'Have all test cases been tested?', value, '');
+                } else if (key.startsWith("CurrentScreenDescription")) {
+                logAction('SYSTEM', 'Description of Current Screen', value, '');
+                } else if (key.startsWith("ActionOutcomeDescription")) {
+                logAction('SYSTEM', 'The outcome of the action', value, '');
+
+                // ✅ Grouped log for UI fields:
+                const uiSummary = `
+                    <b>Resource ID:</b> ${window.tempUIFields.resourceId || 'None'}<br>
+                    <b>Bounds:</b> ${window.tempUIFields.bounds || 'None'}<br>
+                    <b>Input Text:</b> ${window.tempUIFields.inputText || 'None'}<br>
+                    <b>Hint Text:</b> ${window.tempUIFields.hintText || 'None'}<br>
+                    <b>Content Description:</b> ${window.tempUIFields.contentDescription || 'None'}
+                `.trim();
+                logAction('SYSTEM', 'UI Element Selected', uiSummary, '');
+
+                window.captureGPTResponse = false;  // End of GPT response
+                }
+            }
+
+            else if (raw.startsWith("Performed Action:")) {
+                const action = raw.substring("Performed Action:".length).trim();
+                logAction('UI_INTERACTION', 'Performed Action', action, '');
+            }
+
+            else if (raw.startsWith("Current screen:")) {
+                const screen = raw.split(":")[1].trim();
+                logAction('NAVIGATION', 'Current Screen', screen, '');
+            }
+
+            else if (raw.includes("All flows have been successfully navigated and tested!")) {
+                logAction('SYSTEM', 'Test Completion', 'All test cases completed successfully.', 'session_end');
+                endSession();
+            }
+            };
+
+        ws.onerror = (error) => console.error("❌ WebSocket error:", error);
+        ws.onclose = () => console.log("🔌 WebSocket connection closed.");
+
+
+        function endSession() {
+            clearInterval(sessionTimer);  // stop session duration timer
+
+            const overlay = document.getElementById('session-end-overlay');
+            if (overlay) {
+                overlay.classList.remove('hidden');
+            }
+
+            const exportBtn = document.getElementById('exportBtn');
+            if (exportBtn) {
+                exportBtn.disabled = false; // enable export button
+            }
+
+            const metricsBtn = document.getElementById('metricsBtn');
+            if (metricsBtn) {
+                metricsBtn.disabled = false;
+                metricsBtn.classList.remove('bg-blue-300', 'cursor-not-allowed');
+                metricsBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+            }
+
+            // const reportBtn = document.getElementById('ReportBtn');
+            // if (reportBtn) {
+            //     reportBtn.disabled = false;
+            //     reportBtn.classList.remove('bg-blue-300', 'cursor-not-allowed');
+            //     reportBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+            // }
+            console.log("✅ Session ended. Logs exported and button enabled.");
+        }
+
+        const socket = new WebSocket("ws://localhost:3000");
+
+        socket.addEventListener('open', () => {
+            console.log("[WebSocket] Connected to server");
+        });
+
+        socket.addEventListener('message', (event) => {
+            const data = JSON.parse(event.data);
+            console.log("[WebSocket] Received:", data);
+
+            if (data.type === "reportReady" && data.reportFile) {
+                const reportLink = document.getElementById("ReportLink");
+                const reportBtn = document.getElementById("ReportBtn");
+
+                reportLink.href = `/report.html?file=${encodeURIComponent(data.reportFile)}`;
+                reportBtn.disabled = false;
+                reportBtn.classList.remove("bg-blue-300", "cursor-not-allowed");
+                reportBtn.classList.add("bg-blue-600", "hover:bg-blue-700", "cursor-pointer");
+
+                console.log("✅ Report is ready. Report button enabled!");
+            }
+        });
+
+
+</script>
+</body>
+</html>
+
+  <!-- <script>
+    const { ipcRenderer } = require('electron');
+
+    ipcRenderer.on('capture-mockup', (event, stepNumber) => {
+      console.log(`📸 Received IPC to capture step ${stepNumber}`);
+      // Trigger the real capture in main
+      ipcRenderer.send('capture-mockup', stepNumber);
+    });
+  </script> -->
+
+  <!-- <script>
+    // Listen for backend-triggered screenshot (via trigger_capture.js)
+    window.veAPI.onCaptureRequest((step) => {
+      console.log("📸 Trigger received from backend:", step);
+      window.veAPI.captureScreenshot(step);  // This sends to ipcMain
+    });
+  </script> -->
+
+  <!-- <button onclick="veAPI.captureScreenshot(0)" style="position: absolute; top: 10px; right: 10px; z-index: 9999;">
+    📸 Capture Screenshot
+  </button> -->
+
+<!-- #noVNC_container, #noVNC_screen, canvas {
+    margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      background: black !important;
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    #noVNC_mobile_bar,
+    #noVNC_status,
+    #noVNC_control_bar,
+    #noVNC_status_bar,
+    #noVNC_mobile_bar_handle {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+    #noVNC_container, #noVNC_screen {
+      border-radius: 0 !important;
+      overflow: hidden !important;
+    } -->
