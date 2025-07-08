@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 Test Metrics Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-8 font-sans">
+  <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow space-y-6">
+
+    <h1 class="text-2xl font-bold text-black mb-2">📈 Automated Test Metrics Report</h1>
+
+
+    <!-- Summary -->
+    <div id="report-summary" class="grid grid-cols-2 gap-4 text-sm border-b pb-4"></div>
+
+    <!-- Test Case Durations Bar Chart -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2">📋 Test Case Durations</h2>
+      <canvas id="testChart" class="w-full max-w-3xl mb-4"></canvas>
+    </div>
+
+    <!-- Metrics Charts -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+      <!-- CPU Usage -->
+      <div class="flex flex-col items-center space-y-1">
+        <canvas id="cpuChart" class="w-40 h-40"></canvas>
+        <p class="text-sm text-gray-700 font-medium">CPU Usage</p>
+      </div>
+
+      <!-- Memory Usage -->
+      <div class="flex flex-col items-center space-y-1">
+        <canvas id="memChart" class="w-40 h-40"></canvas>
+        <p class="text-sm text-gray-700 font-medium">Memory Usage</p>
+      </div>
+
+      <!-- Battery Levels -->
+      <div class="flex flex-col items-center space-y-1">
+        <canvas id="batteryChart" class="w-40 h-40"></canvas>
+        <p class="text-sm text-gray-700 font-medium">Battery Level</p>
+      </div>
+
+      <!-- Network Usage -->
+      <div class="flex flex-col items-center space-y-1">
+        <canvas id="netChart" class="w-40 h-40"></canvas>
+        <p class="text-sm text-gray-700 font-medium">Network Usage (KB)</p>
+      </div>
+
+    </div>
+
+    <!-- Detailed Metrics -->
+    <h2 class="text-xl font-semibold mt-6 mb-2">📊 Detailed Metrics</h2>
+    <div id="detailed-metrics" class="text-sm space-y-2"></div>
+
+  </div>
+
+  <script>
+    fetch("/metrics-data")
+      .then(res => res.json())
+      .then(data => {
+        // Summary
+        const summaryDiv = document.getElementById("report-summary");
+        summaryDiv.innerHTML = `
+          <div><strong> App:</strong> ${data.app_name}</div>
+          <div><strong> Start Time:</strong> ${data.start_time}</div>
+          <div><strong> End Time:</strong> ${data.end_time}</div>
+          <div><strong> Duration:</strong> ${data.total_test_time_seconds} seconds</div>
+          <div><strong>✅ Passed:</strong> ${data.functions_passed}</div>
+          <div><strong>❌ Failed:</strong> ${data.functions_failed}</div>
+          <div><strong> Actions:</strong> ${data.actions_performed.inputs || 0} Inputs, ${data.actions_performed.clicks || 0} Clicks</div>
+          <div><strong> Screens Visited:</strong> ${data.screens_visited}</div>
+        `;
+
+        // Test case durations
+        const testNames = Object.keys(data.test_case_completion_times);
+        const testTimes = Object.values(data.test_case_completion_times);
+
+        const ctx = document.getElementById("testChart").getContext("2d");
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: testNames,
+            datasets: [{
+              label: 'Test Duration (s)',
+              data: testTimes,
+              backgroundColor: '#3b82f6'
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Seconds" }
+              }
+            }
+          }
+        });
+
+        // CPU Usage
+        const cpuCtx = document.getElementById("cpuChart").getContext("2d");
+        new Chart(cpuCtx, {
+          type: 'pie',
+          data: {
+            labels: ['Used Avg (%)', 'Idle (%)'],
+            datasets: [{
+              data: [data.cpu_usage.average || 0, 100 - (data.cpu_usage.average || 0)],
+              backgroundColor: ['#6366f1', '#e5e7eb']
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Memory Usage
+        const memCtx = document.getElementById("memChart").getContext("2d");
+        new Chart(memCtx, {
+          type: 'pie',
+          data: {
+            labels: ['Used RSS (MB)', 'Free (est.)'],
+            datasets: [{
+              data: [data.memory_usage.rss || 0, 2000 - (data.memory_usage.rss || 0)],
+              backgroundColor: ['#10b981', '#e5e7eb']
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Battery
+        const batteryCtx = document.getElementById("batteryChart").getContext("2d");
+        new Chart(batteryCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Start Level', 'Used'],
+            datasets: [{
+              data: [
+                data.battery.end_level,
+                data.battery.start_level - data.battery.end_level
+              ],
+              backgroundColor: ['#fbbf24', '#e5e7eb']
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Network Usage
+        const netCtx = document.getElementById("netChart").getContext("2d");
+        new Chart(netCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['TX KB', 'RX KB'],
+            datasets: [{
+              data: [data.network_usage.tx_kb, data.network_usage.rx_kb],
+              backgroundColor: ['#ef4444', '#3b82f6']
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Detailed metrics
+        const detailDiv = document.getElementById("detailed-metrics");
+        detailDiv.innerHTML = `
+          <h3 class="text-lg font-semibold mb-2">📌 System Metrics</h3>
+          <ul class="list-disc ml-6 space-y-1">
+            <li><strong>Device:</strong> ${data.device_model} (${data.android_version})</li>
+            <li><strong>CPU Usage:</strong> Avg: ${data.cpu_usage.average}% | Peak: ${data.cpu_usage.peak}%</li>
+            <li><strong>Memory:</strong> RSS: ${data.memory_usage.rss} MB | PSS: ${data.memory_usage.pss} MB</li>
+            <li><strong>Battery:</strong> Start: ${data.battery.start_level}% → End: ${data.battery.end_level}%, Temp: ${data.battery.temperature}°C</li>
+            <li><strong>FPS:</strong> Avg: ${data.fps.average_fps}, Janky Frames: ${data.fps.janky_frames}</li>
+            <li><strong>Network:</strong> TX: ${data.network_usage.tx_kb} KB, RX: ${data.network_usage.rx_kb} KB</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold mt-4 mb-2">✅ Test Case Results</h3>
+          <ul class="list-disc ml-6">
+            ${Object.entries(data.individual_test_case_times).map(([name, details]) =>
+              `<li>
+                <strong>${name}</strong>: ${details.duration || 0}s -
+                <span class="${details.status === 'Completed' ? 'text-green-600' : 'text-red-600'}">
+                  ${details.status}
+                </span>
+              </li>`
+            ).join('')}
+          </ul>
+        `;
+      })
+      .catch(err => {
+        document.body.innerHTML = `<p class="text-red-600">⚠️ Error loading metrics report</p>`;
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
